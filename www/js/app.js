@@ -1,6 +1,6 @@
 
 angular.module('someklone.config', []).constant('appConfig', {
-        "apiAddr": "http://your-server-app-address-here"
+        "apiAddr": "https://still-depths-39758.herokuapp.com/"
 });
 
 // Declare the services module
@@ -27,7 +27,7 @@ angular.module('someklone', ['ionic', 'someklone.controllers', 'someklone.servic
 
 
 
-.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $compileProvider) {  
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $compileProvider) {
 
   $ionicConfigProvider.tabs.position("bottom");
   // Ionic uses AngularUI Router which uses the concept of states
@@ -83,7 +83,7 @@ angular.module('someklone', ['ionic', 'someklone.controllers', 'someklone.servic
           controller: 'SearchCtrl'
       }
     }
-  })  
+  })
 
   .state('tab.activity', {
     url: '/activity',
@@ -108,7 +108,7 @@ angular.module('someklone', ['ionic', 'someklone.controllers', 'someklone.servic
   .state('post', {
     url: '/post',
     templateUrl: 'templates/post.html',
-    controller: 'PostCtrl'    
+    controller: 'PostCtrl'
   })
 
   .state('post-confirm', {
@@ -119,11 +119,11 @@ angular.module('someklone', ['ionic', 'someklone.controllers', 'someklone.servic
         imageUri: null
     }
   })
-  
+
   .state('comment', {
     url: '/comment/:postId',
     templateUrl: 'templates/comment-post.html',
-    controller: 'PostCommentCtrl'    
+    controller: 'PostCommentCtrl'
   });
 
   // if none of the above states are matched, use this as the fallback

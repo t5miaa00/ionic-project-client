@@ -5,18 +5,18 @@ angular.module('someklone.services').factory('Posts', function($q, $http, appCon
 
     return {
         // posts from myself and the from the users i am following
-        following: function() 
+        following: function()
         {
             return $q(function(resolve, reject){
-                $http.get(appConfig.apiAddr + "posts").then(function(response){
+                $http.get(appConfig.apiAddr + "posts/relevant").then(function(response){
                     posts = posts.concat(response.data);
                     resolve(posts);
                 },function(err){
                     reject();
-                });                                
+                });
             });
         },
-        // most recent posts 
+        // most recent posts
         recent: function()
         {
             return $q(function(resolve, reject){
@@ -34,7 +34,7 @@ angular.module('someklone.services').factory('Posts', function($q, $http, appCon
         getUserPosts: function(userId)
         {
             return $q(function(resolve, reject){
-                
+
                 // execute the search and return results
                 resolve(posts); // placeholder
             });
@@ -47,8 +47,8 @@ angular.module('someklone.services').factory('Posts', function($q, $http, appCon
                     user: {
                         id: 1,
                         username: "dtrump",
-                        profileImageSmall: "http://core0.staticworld.net/images/article/2015/11/111915blog-donald-trump-100629006-primary.idge.jpg" 
-                    },                                                 
+                        profileImageSmall: "http://core0.staticworld.net/images/article/2015/11/111915blog-donald-trump-100629006-primary.idge.jpg"
+                    },
                     image: imageUri,
                     imageThumbnail: imageUri, // no special thumbnail yet, but there will be when the image is eventually uploaded to server
                     likes: 0,
@@ -72,13 +72,13 @@ angular.module('someklone.services').factory('Posts', function($q, $http, appCon
             else{
                 post.likes++;
             }
-            post.userLike = !post.userLike;            
+            post.userLike = !post.userLike;
         },
         getCommentsForPost: function(postId)
         {
             return $q(function(resolve, reject){
                 var post = posts.find(function(element){
-                    return element.id == postId                    
+                    return element.id == postId
                 });
 
                 if(post !== undefined)
@@ -95,7 +95,7 @@ angular.module('someklone.services').factory('Posts', function($q, $http, appCon
         {
             return $q(function(resolve, reject){
                 var post = posts.find(function(element){
-                    return element.id == postId                    
+                    return element.id == postId
                 });
 
                 if(post !== undefined)
@@ -106,10 +106,10 @@ angular.module('someklone.services').factory('Posts', function($q, $http, appCon
                             id: 1,
                             username: "HillaryC",
                             profileImageSmall: "https://pbs.twimg.com/profile_images/750300510264107008/G8-PA5KA.jpg"
-                        },                    
-                        text: comment,
+                        },
+                        comment: comment,
                         userRefs: [],
-                        tags: []  
+                        tags: []
                     });
                     resolve();
                 }
