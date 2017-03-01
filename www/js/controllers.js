@@ -24,7 +24,7 @@ angular.module('someklone.controllers', [])
     {
         $state.go('tab.browse-search');
     }
-  
+
     $scope.browseDetail = function(id)
     {
         $state.go('tab.browse-detail', { id: id });
@@ -69,7 +69,7 @@ angular.module('someklone.controllers', [])
     $scope.tabActivate = function(tab)
     {
         for (var k in $scope.tabs) {
-            if ($scope.tabs.hasOwnProperty(k)) 
+            if ($scope.tabs.hasOwnProperty(k))
             {
                 $scope.tabs[k] = false;
             }
@@ -96,13 +96,13 @@ angular.module('someklone.controllers', [])
 
     $scope.tabs = {
         gallery: true,
-        photo: false,        
+        photo: false,
     };
 
     $scope.imageData = {
         gallery: {}
-    };    
-    
+    };
+
     $scope.goBack = function()
     {
         $ionicHistory.nextViewOptions({
@@ -115,14 +115,14 @@ angular.module('someklone.controllers', [])
     {
         $scope.tabs.photo = true;
         $scope.tabs.gallery = false;
-                
+
         var options =  {
-            // Some common settings are 20, 50, and 100 
+            // Some common settings are 20, 50, and 100
             quality: 50,
-            destinationType: Camera.DestinationType.FILE_URI,            
+            destinationType: Camera.DestinationType.FILE_URI,
             sourceType: Camera.PictureSourceType.CAMERA,
             encodingType: Camera.EncodingType.JPEG,
-            mediaType: Camera.MediaType.PICTURE             
+            mediaType: Camera.MediaType.PICTURE
         };
 
         $ionicPlatform.ready(function() {
@@ -141,7 +141,7 @@ angular.module('someklone.controllers', [])
         $scope.tabs.photo = false;
         $scope.tabs.gallery = true;
 
-        // fetch photos from "Camera" album - this works in Android, not tested with iOS      
+        // fetch photos from "Camera" album - this works in Android, not tested with iOS
         // galleryAPI provided by https://github.com/subitolabs/cordova-gallery-api
         galleryAPI.getMedia("Camera", function(items) {
             console.log(items);
@@ -155,8 +155,8 @@ angular.module('someklone.controllers', [])
                 {
                     return false;
                 }
-            });            
-        });        
+            });
+        });
     };
 
     $scope.selectGalleryImage = function(photo)
@@ -179,15 +179,15 @@ angular.module('someklone.controllers', [])
     $scope.post = {
         imageUri: $stateParams.imageUri,
         caption: ""
-    };     
-    
+    };
+
     $scope.goBack = function()
     {
         $ionicHistory.nextViewOptions({
             disableBack: true
         });
         $state.go('post');
-    }; 
+    };
 
     $scope.sharePost = function()
     {
@@ -198,7 +198,7 @@ angular.module('someklone.controllers', [])
             $state.go('tab.home');
         });
     };
-}) 
+})
 
 .controller('ActivityCtrl', function($scope, Users) {
     $scope.activity = Users.getActiveUserActivity();
@@ -234,4 +234,28 @@ angular.module('someklone.controllers', [])
             $scope.comment.text = "";
         });
     }
+})
+.controller('loginCtrl', function($scope, User, $ionicPopup, $ionicHistory, $state) {
+  $scope.user = {
+    name: "",
+    password: ""
+  };
+
+  $scope.login = function()
+  {
+    User.login($scope.user.name, $scope.user.password).then(function(){
+      $ionicHistory.nextViewOptions({
+        disableBack: true
+      });
+      $state.go('tab.home');
+    }).catch(function(){
+      var alertPopup = $ionicPopup.alert({
+        title: 'Login fail',
+        template: 'Incorrect username or password'
+      });
+    });
+  }
 });
+
+
+/* vim: set softtabstop=4 sw=4 ts=4: */

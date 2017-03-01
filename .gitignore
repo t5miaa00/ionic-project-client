@@ -7,3 +7,6 @@ plugins/
 
 www/lib
 bin/
+
+*.swp
+*~

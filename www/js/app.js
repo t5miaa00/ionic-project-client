@@ -9,7 +9,7 @@ angular.module('someklone.services', ['someklone.config']);
 // Declare the actual application module
 angular.module('someklone', ['ionic', 'someklone.controllers', 'someklone.services', 'ngCordova'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $rootScope, User, $state) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -22,6 +22,10 @@ angular.module('someklone', ['ionic', 'someklone.controllers', 'someklone.servic
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+  });
+
+  $rootScope.$on('$stateChangeError', function(e, toState, toParams, fromState, fromParams, error) {
+    $state.go("login");
   });
 })
 
@@ -40,7 +44,12 @@ angular.module('someklone', ['ionic', 'someklone.controllers', 'someklone.servic
   .state('tab', {
     url: '/tab',
     abstract: true,
-    templateUrl: 'templates/tabs.html'
+    templateUrl: 'templates/tabs.html',
+    resolve: {
+      isLogged: function(User) {
+        return User.isLogged();
+      }
+    }
   })
 
   // Each tab has its own nav history stack:
@@ -108,7 +117,12 @@ angular.module('someklone', ['ionic', 'someklone.controllers', 'someklone.servic
   .state('post', {
     url: '/post',
     templateUrl: 'templates/post.html',
-    controller: 'PostCtrl'
+    controller: 'PostCtrl',
+    resolve: {
+      isLogged: function(User) {
+        return User.isLogged();
+      }
+    }
   })
 
   .state('post-confirm', {
@@ -117,6 +131,11 @@ angular.module('someklone', ['ionic', 'someklone.controllers', 'someklone.servic
     controller: 'PostConfirmCtrl',
     params: {
         imageUri: null
+    },
+    resolve: {
+      isLogged: function(User) {
+        return User.isLogged();
+      }
     }
   })
 
@@ -124,9 +143,23 @@ angular.module('someklone', ['ionic', 'someklone.controllers', 'someklone.servic
     url: '/comment/:postId',
     templateUrl: 'templates/comment-post.html',
     controller: 'PostCommentCtrl'
+  })
+
+  .state('login', {
+    url: '/login',
+    templateUrl: 'templates/login.html',
+    controller: 'loginCtrl'
+  })
+
+  .state('register', {
+    url: '/register',
+    templateUrl: 'templates/register.html',
+    controller: 'registerCtrl'
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/home');
+  $urlRouterProvider.otherwise('/login');
 
 });
+
+/* vim: set softtabstop=2 ts=2 sw=2: */
